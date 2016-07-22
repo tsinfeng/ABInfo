@@ -1,0 +1,10 @@
+D:\MyAppWork\DataOutput\DataOutput\obj\Debug\ResolveAssemblyReference.cache
+D:\MyAppWork\DataOutput\DataOutput\bin\Debug\DataOutput.exe
+D:\MyAppWork\DataOutput\DataOutput\bin\Debug\DataOutput.pdb
+D:\MyAppWork\DataOutput\DataOutput\obj\Debug\DataOutput.exe
+D:\MyAppWork\DataOutput\DataOutput\obj\Debug\DataOutput.pdb
+D:\CSharpWork\ABProg\DataOutput\DataOutput\obj\Debug\DataOutput.exe
+D:\CSharpWork\ABProg\DataOutput\DataOutput\obj\Debug\DataOutput.pdb
+D:\CSharpWork\ABProg\DataOutput\DataOutput\bin\Debug\DataOutput.exe
+D:\CSharpWork\ABProg\DataOutput\DataOutput\bin\Debug\DataOutput.pdb
+D:\CSharpWork\ABProg\DataOutput\DataOutput\obj\Debug\ResolveAssemblyReference.cache
