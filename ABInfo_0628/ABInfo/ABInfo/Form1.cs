@@ -19,6 +19,9 @@ namespace ABInfo
         int iPart = 10000;
         int iPos = 1;
         int iNum = 0;
+        //页码表示
+        int iPageNum = 0;
+        int iCurrPage = 0;
         public Form1()
         {
             InitializeComponent();
@@ -53,6 +56,7 @@ namespace ABInfo
                     buttonFront.Enabled = false;
                     buttonNext.Enabled = false;
                     buttonTail.Enabled = false;
+                    buttonGo.Enabled = false;
                 }
                 else
                 {
@@ -60,6 +64,7 @@ namespace ABInfo
                     buttonFront.Enabled = true;
                     buttonNext.Enabled = true;
                     buttonTail.Enabled = true;
+                    buttonGo.Enabled = true;
                 }
                 
 
@@ -114,6 +119,12 @@ namespace ABInfo
                 //关闭当前文件流
                 //iPos = iPart + 1;
                 myStream.Close();
+                if (iNum % iPart == 0)
+                    iPageNum = iNum / iPart;
+                else
+                    iPageNum = iNum / iPart + 1;
+                iCurrPage = iPos / iPart + 1;
+                label2.Text = "共" + iPageNum.ToString() + "页 " + "第" + iCurrPage.ToString() + "页";
 
             }
 
@@ -457,10 +468,13 @@ namespace ABInfo
             //关闭当前二进制读取流
             //myReader.Close();
             //关闭当前文件流
-            iPos = iPart + 1;
+            //iPos = iPart + 1;
+            iPos = 1;
             myStream.Close();
 
-
+            //页码
+            iCurrPage = iPos / iPart + 1;
+            label2.Text = "共" + iPageNum.ToString() + "页 " + "第" + iCurrPage.ToString() + "页";
 
         }
 
@@ -505,7 +519,9 @@ namespace ABInfo
 
             }
             iPos = iCount;
-
+            //页码
+            iCurrPage = iPos / iPart + 1;
+            label2.Text = "共" + iPageNum.ToString() + "页 " + "第" + iCurrPage.ToString() + "页";
         }
 
         private void buttonNext_Click(object sender, EventArgs e)
@@ -548,11 +564,13 @@ namespace ABInfo
 
                 }
                 iPos = iCount;
-
+                //页码
+                iCurrPage = iPos / iPart + 1;
+                label2.Text = "共" + iPageNum.ToString() + "页 " + "第" + iCurrPage.ToString() + "页";
             }
             else if (iCount - iNum < iPart)
             {
-                iCount = iPos + iPart;
+                //iCount = iPos + iPart;
                 //FileStream myStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
                 listBoxABData.Items.Clear();
                 offset = (iPos - 1) * 256;
@@ -585,6 +603,9 @@ namespace ABInfo
 
                 }
                 //iPos = iCount;
+                //页码
+                iCurrPage = iPos / iPart +1;
+                label2.Text = "共" + iPageNum.ToString() + "页 " + "第" + iCurrPage.ToString() + "页";
             }
             else
                 return;
@@ -635,11 +656,151 @@ namespace ABInfo
                 offset = offset + 256;
 
             }
+
+            //页码
+            iCurrPage = iPos / iPart + 1;
+            label2.Text = "共" + iPageNum.ToString() + "页 " + "第" + iCurrPage.ToString() + "页";
         }
 
         private void tbText_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        protected bool isNumberic(string message)
+        {
+            System.Text.RegularExpressions.Regex rex =
+            new System.Text.RegularExpressions.Regex(@"^\d+$");
+            if (rex.IsMatch(message))
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+        private void buttonGo_Click(object sender, EventArgs e)
+        {
+            int iPage;
+            if(false == isNumberic(textBoxPage.Text.Trim()))
+            {
+                MessageBox.Show("请输入数字！");
+                return;
+            }
+            iPage = int.Parse(textBoxPage.Text.Trim());
+            if (iPage < 1 || iPage > iPageNum)
+                MessageBox.Show("输入错误，页码在1-" + iPageNum.ToString() + "之间!");
+
+            iPos = (iPage - 1)*iPart +1;
+            iCount = iPos + iPart;
+            FileStream myStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+            byte[] data = new byte[256];
+            int offset;
+
+            if (iCount <= iNum)
+            {
+                listBoxABData.Items.Clear();
+                offset = (iCount - 1) * 256;
+                int k;
+                for (k = iPos; k < iCount; k++)
+                {
+                    myStream.Seek(offset, SeekOrigin.Begin);
+                    int len = myStream.Read(data, 0, 256);
+                    if (len <= 0)
+                        break;
+                    StringBuilder sbString = new StringBuilder();
+                    StringBuilder ABinfoString = new StringBuilder();
+                    StringBuilder sbTime = new StringBuilder();
+                    byte[] btTime = new byte[4];
+                    for (int i = 4, j = 0; i < 8; i++, j++)
+                    {
+                        btTime[j] = data[i];
+                    }
+                    for (int i = 38; i < 110; i++)
+                    {
+                        ABinfoString.Append(data[i].ToString("X2") + " ");
+                    }
+                    string strDateTime = ABProtcol.GetDateTime(btTime);
+
+                    //iCount++;
+                    listBoxABData.Items.Add("No:" + k.ToString() + ". " + strDateTime + " AB机数据: " + ABinfoString.ToString() + "\r\n");
+
+                    Array.Clear(data, 0, data.Length);
+                    offset = offset + 256;
+
+                }
+
+                //页码
+                iCurrPage = iPos / iPart + 1;
+                label2.Text = "共" + iPageNum.ToString() + "页 " + "第" + iCurrPage.ToString() + "页";
+            }
+            else if (iCount - iNum < iPart)
+            {
+                //iCount = iPos + iPart;
+                //FileStream myStream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+                listBoxABData.Items.Clear();
+                offset = (iPos - 1) * 256;
+                int k;
+                for (k = iPos; k <= iNum; k++)
+                {
+                    myStream.Seek(offset, SeekOrigin.Begin);
+                    int len = myStream.Read(data, 0, 256);
+                    if (len <= 0)
+                        break;
+                    StringBuilder sbString = new StringBuilder();
+                    StringBuilder ABinfoString = new StringBuilder();
+                    StringBuilder sbTime = new StringBuilder();
+                    byte[] btTime = new byte[4];
+                    for (int i = 4, j = 0; i < 8; i++, j++)
+                    {
+                        btTime[j] = data[i];
+                    }
+                    for (int i = 38; i < 110; i++)
+                    {
+                        ABinfoString.Append(data[i].ToString("X2") + " ");
+                    }
+                    string strDateTime = ABProtcol.GetDateTime(btTime);
+
+                    //iCount++;
+                    listBoxABData.Items.Add("No:" + k.ToString() + ". " + strDateTime + " AB机数据: " + ABinfoString.ToString() + "\r\n");
+
+                    Array.Clear(data, 0, data.Length);
+                    offset = offset + 256;
+
+                }
+                //iPos = iCount;
+                //页码
+                iCurrPage = iPos / iPart + 1;
+                label2.Text = "共" + iPageNum.ToString() + "页 " + "第" + iCurrPage.ToString() + "页";
+            }
+            else
+                return;
+
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            if ("" == tbText.Text.Trim())
+            {
+                MessageBox.Show("数据分析为空，无法保存！");
+                return;
+            }
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "文本文件|*.txt|所有文件|*.*";
+            saveFileDialog.FilterIndex = 2;
+            saveFileDialog.RestoreDirectory = true;
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+                string filePathName = saveFileDialog.FileName;
+
+                FileStream fs = new FileStream(filePathName, FileMode.Create);
+                byte[] data = System.Text.Encoding.Default.GetBytes(tbText.Text);
+                fs.Write(data, 0, data.Length);
+                fs.Flush();
+                fs.Close();
+
+            }
         }
 
 

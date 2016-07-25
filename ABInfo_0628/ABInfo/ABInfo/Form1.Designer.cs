@@ -36,6 +36,10 @@
             this.buttonFront = new System.Windows.Forms.Button();
             this.buttonNext = new System.Windows.Forms.Button();
             this.buttonTail = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBoxPage = new System.Windows.Forms.TextBox();
+            this.buttonGo = new System.Windows.Forms.Button();
+            this.buttonSave = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -84,9 +88,9 @@
             // 
             // buttonFirst
             // 
-            this.buttonFirst.Location = new System.Drawing.Point(439, 50);
+            this.buttonFirst.Location = new System.Drawing.Point(435, 50);
             this.buttonFirst.Name = "buttonFirst";
-            this.buttonFirst.Size = new System.Drawing.Size(56, 23);
+            this.buttonFirst.Size = new System.Drawing.Size(65, 23);
             this.buttonFirst.TabIndex = 5;
             this.buttonFirst.Text = "首页";
             this.buttonFirst.UseVisualStyleBackColor = true;
@@ -94,9 +98,9 @@
             // 
             // buttonFront
             // 
-            this.buttonFront.Location = new System.Drawing.Point(439, 115);
+            this.buttonFront.Location = new System.Drawing.Point(435, 114);
             this.buttonFront.Name = "buttonFront";
-            this.buttonFront.Size = new System.Drawing.Size(57, 23);
+            this.buttonFront.Size = new System.Drawing.Size(65, 23);
             this.buttonFront.TabIndex = 6;
             this.buttonFront.Text = "上一页";
             this.buttonFront.UseVisualStyleBackColor = true;
@@ -104,9 +108,9 @@
             // 
             // buttonNext
             // 
-            this.buttonNext.Location = new System.Drawing.Point(439, 180);
+            this.buttonNext.Location = new System.Drawing.Point(435, 178);
             this.buttonNext.Name = "buttonNext";
-            this.buttonNext.Size = new System.Drawing.Size(56, 23);
+            this.buttonNext.Size = new System.Drawing.Size(65, 23);
             this.buttonNext.TabIndex = 7;
             this.buttonNext.Text = "下一页";
             this.buttonNext.UseVisualStyleBackColor = true;
@@ -114,19 +118,59 @@
             // 
             // buttonTail
             // 
-            this.buttonTail.Location = new System.Drawing.Point(439, 245);
+            this.buttonTail.Location = new System.Drawing.Point(435, 242);
             this.buttonTail.Name = "buttonTail";
-            this.buttonTail.Size = new System.Drawing.Size(57, 23);
+            this.buttonTail.Size = new System.Drawing.Size(65, 23);
             this.buttonTail.TabIndex = 8;
             this.buttonTail.Text = "尾页";
             this.buttonTail.UseVisualStyleBackColor = true;
             this.buttonTail.Click += new System.EventHandler(this.buttonTail_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(177, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(76, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "共0页   第0页";
+            // 
+            // textBoxPage
+            // 
+            this.textBoxPage.Location = new System.Drawing.Point(275, 6);
+            this.textBoxPage.Name = "textBoxPage";
+            this.textBoxPage.Size = new System.Drawing.Size(35, 20);
+            this.textBoxPage.TabIndex = 10;
+            // 
+            // buttonGo
+            // 
+            this.buttonGo.Location = new System.Drawing.Point(316, 4);
+            this.buttonGo.Name = "buttonGo";
+            this.buttonGo.Size = new System.Drawing.Size(33, 23);
+            this.buttonGo.TabIndex = 11;
+            this.buttonGo.Text = "Go";
+            this.buttonGo.UseVisualStyleBackColor = true;
+            this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Location = new System.Drawing.Point(435, 306);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(65, 23);
+            this.buttonSave.TabIndex = 12;
+            this.buttonSave.Text = "保存分析";
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1008, 730);
+            this.Controls.Add(this.buttonSave);
+            this.Controls.Add(this.buttonGo);
+            this.Controls.Add(this.textBoxPage);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonTail);
             this.Controls.Add(this.buttonNext);
             this.Controls.Add(this.buttonFront);
@@ -153,6 +197,10 @@
         private System.Windows.Forms.Button buttonFront;
         private System.Windows.Forms.Button buttonNext;
         private System.Windows.Forms.Button buttonTail;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox textBoxPage;
+        private System.Windows.Forms.Button buttonGo;
+        private System.Windows.Forms.Button buttonSave;
     }
 }
 
